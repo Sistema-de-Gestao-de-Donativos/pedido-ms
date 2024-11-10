@@ -1,0 +1,22 @@
+services:
+
+  pedido-ms:
+    build: ./
+    container_name: pedido-ms
+    restart: always
+    ports:
+      - 8084:8084
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:5.0-focal
+    container_name: db_pedido
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: db_pedido
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_ROOT_USERNAME: root
+    
