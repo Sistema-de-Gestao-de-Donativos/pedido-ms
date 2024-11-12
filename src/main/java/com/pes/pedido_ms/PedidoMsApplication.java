@@ -8,8 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 public class PedidoMsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PedidoMsApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(PedidoMsApplication.class, args);
+    }
 }
