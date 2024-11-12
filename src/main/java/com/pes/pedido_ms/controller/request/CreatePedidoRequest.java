@@ -1,18 +1,16 @@
 package com.pes.pedido_ms.controller.request;
 
-import com.pes.pedido_ms.domain.Item;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
-import java.util.ArrayList;
 import java.util.List;
 
-@Data
-public class CreatePedidoRequest {
+import com.pes.pedido_ms.domain.Item;
 
-    @NotNull(message = "Item is required")
-    private List<Item> items = new ArrayList<>();
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+
+
+@Getter
+public class CreatePedidoRequest {
 
     @NotBlank(message = "codCentroDestribuicao is required")
     private String codCentroDestribuicao;
@@ -20,6 +18,6 @@ public class CreatePedidoRequest {
     @NotBlank(message = "codAbrigo is required")
     private String codAbrigo;
 
-    @NotBlank(message = "usuario is required")
-    private String usuario;
+    @NotNull(message = "Item is required")
+    private List<Item> items;
 }

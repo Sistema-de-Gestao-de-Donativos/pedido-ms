@@ -1,9 +1,16 @@
 package com.pes.pedido_ms.feignClient.estoque;
 
-// @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-// public interface EstoqueConverter {
+import java.util.List;
 
-//     EstoqueItem estoqueItemDTOToEstoqueItem(EstoqueItemDTO estoqueItemDTO);
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
-//     EstoqueItemDTO estoqueItemToEstoqueItemDTO(EstoqueItem estoqueItem);
-// }
+import com.pes.pedido_ms.domain.Item;
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface EstoqueConverter {
+
+    List<Item> estoqueItemDTOToItem(List<EstoqueItemDTO> estoqueItemDTO);
+
+    EstoqueItemDTO itemToEstoqueItemDTO(Item item);
+}
