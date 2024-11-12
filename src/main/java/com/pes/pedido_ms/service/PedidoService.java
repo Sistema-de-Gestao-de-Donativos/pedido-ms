@@ -1,6 +1,7 @@
 package com.pes.pedido_ms.service;
 
 import com.pes.pedido_ms.controller.request.CreatePedidoRequest;
+import com.pes.pedido_ms.controller.request.UpdatePedidoStatus;
 import com.pes.pedido_ms.controller.response.PedidoCreationResponse;
 import com.pes.pedido_ms.domain.Item;
 import com.pes.pedido_ms.domain.Pedido;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.pes.pedido_ms.mapper.PedidoMapper.toEntity;
 
@@ -51,5 +53,22 @@ public class PedidoService {
             // deve retornar erro e os itens não encontrados
             return new PedidoCreationResponse(itemsNotFound, false);
         }
+    }
+
+    public Boolean update(UpdatePedidoStatus updatedStatus) {
+
+        Optional<Pedido> oldPedido = pedidoRepository.findByCodPedido(updatedStatus.getCodPedido().toString());
+
+        if (oldPedido.isEmpty()) {
+            return false;
+        }
+        
+        // atualiza
+        Pedido updatedPedido = oldPedido.get();
+        updatedPedido.setStatus(updatedStatus.getStatus());
+        // salva
+        pedidoRepository.save(updatedPedido);
+        
+        return true;
     }
 }

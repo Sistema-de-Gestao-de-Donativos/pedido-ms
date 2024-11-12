@@ -1,6 +1,7 @@
 package com.pes.pedido_ms.controller;
 
 import com.pes.pedido_ms.controller.request.CreatePedidoRequest;
+import com.pes.pedido_ms.controller.request.UpdatePedidoStatus;
 import com.pes.pedido_ms.controller.response.PedidoCreationResponse;
 import com.pes.pedido_ms.service.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +40,17 @@ public class PedidoController {
         } else {
             return ResponseEntity.status(BAD_REQUEST).body(response);
         }
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@Valid @RequestBody UpdatePedidoStatus updatedStatus) {
+
+        if (pedidoService.update(updatedStatus)) {
+            return ResponseEntity.noContent().build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 }
