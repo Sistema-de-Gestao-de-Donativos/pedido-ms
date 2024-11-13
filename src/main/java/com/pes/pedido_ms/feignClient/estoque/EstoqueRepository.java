@@ -17,9 +17,9 @@ public class EstoqueRepository {
     private final EstoqueClient estoqueClient;
     private final EstoqueConverter estoqueConverter;
 
-    public List<Item> buscarItemEstoque(final String codigoItem){
+    public List<Item> buscarItemEstoque(final String codigoItem, final Long codCD){
         log.info("Buscando item no estoque com código: {}", codigoItem);
-        List<EstoqueItemDTO> estoqueItemDTO = estoqueClient.buscarItem(codigoItem);
+        List<EstoqueItemDTO> estoqueItemDTO = estoqueClient.buscarItem(codigoItem, codCD);
         return estoqueConverter.estoqueItemDTOToItem(estoqueItemDTO);
     }
 

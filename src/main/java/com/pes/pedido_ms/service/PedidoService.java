@@ -1,7 +1,5 @@
 package com.pes.pedido_ms.service;
 
-import static com.pes.pedido_ms.mapper.PedidoMapper.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,13 +42,27 @@ public class PedidoService {
         List<Item> itemsNotFound = new ArrayList<>();
 
         //descomentar só quando o estoque estiver ok
-        //verificar quais campos o estoque retorna, precijamos só do cod/id do item
+        //verificar quais campos o estoque retorna, precisamos só do cod/id do item
         // request.getItems().forEach(it -> {
         //     List<Item> item = estoqueRepository.buscarItemEstoque(it.getCodItem());
         //     if(item.isEmpty()){
         //         itemsNotFound.add(it);
         //     }
         // });
+        // Lista de itens retornada pelo estoque
+        /* 
+         * [
+                {
+                    "codCd": 1,
+                    "nome": "feijao",
+                    "quantidade": 57,
+                    "unidade": "Kg",
+                    "categoria": "alimenticio",
+                    "_id": "671ab2e5d5a8454b304700f9",
+                    "created_at": "2024-10-24T20:49:41.755000"
+                }
+            ]
+         */
 
         if (!itemsNotFound.isEmpty()) {
             return new PedidoCreationResponse(itemsNotFound, false);
