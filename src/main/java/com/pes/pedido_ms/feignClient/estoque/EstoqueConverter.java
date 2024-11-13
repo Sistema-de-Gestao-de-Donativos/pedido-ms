@@ -13,4 +13,15 @@ public interface EstoqueConverter {
     List<Item> estoqueItemDTOToItem(List<EstoqueItemDTO> estoqueItemDTO);
 
     EstoqueItemDTO itemToEstoqueItemDTO(Item item);
+
+    default Item map(EstoqueItemDTO estoqueItemDTO) {
+        if (estoqueItemDTO == null) {
+            return null;
+        }
+        return new Item(
+            null,
+            estoqueItemDTO.codItem(),
+            estoqueItemDTO.quantity()
+        );
+    }
 }

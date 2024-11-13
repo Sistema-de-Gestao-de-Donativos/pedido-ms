@@ -34,7 +34,7 @@ public class PedidoQuery {
                 StatusPedidoDomain status = StatusPedidoDomain.valueOf(filter.status());
                 query.addCriteria(Criteria.where("status").is(status));
             } catch (IllegalArgumentException e) {
-                log.error("Erro ao tentar buscar status", e);
+                log.error("Erro ao tentar buscar status: '{}'. Erro: '{}'", filter.status(), e.getMessage());
             }
         }
     
