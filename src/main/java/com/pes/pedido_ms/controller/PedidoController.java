@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pes.pedido_ms.controller.request.CreatePedidoRequest;
+import com.pes.pedido_ms.controller.request.UpdatePedidoStatus;
 import com.pes.pedido_ms.controller.response.PedidoCreationResponse;
 import com.pes.pedido_ms.domain.Pedido;
 import com.pes.pedido_ms.service.FilterPedido;
@@ -27,6 +28,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/v1/pedidos")
@@ -72,5 +80,17 @@ public class PedidoController {
         .build();
         
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.buscarPedido(filter));
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@Valid @RequestBody UpdatePedidoStatus updatedStatus) {
+
+        if (pedidoService.update(updatedStatus)) {
+            return ResponseEntity.noContent().build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 }

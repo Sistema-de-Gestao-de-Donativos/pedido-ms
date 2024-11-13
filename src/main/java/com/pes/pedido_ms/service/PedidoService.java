@@ -1,14 +1,18 @@
 package com.pes.pedido_ms.service;
 
+import static com.pes.pedido_ms.mapper.PedidoMapper.*;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
 import com.pes.pedido_ms.controller.request.CreatePedidoRequest;
+import com.pes.pedido_ms.controller.request.UpdatePedidoStatus;
 import com.pes.pedido_ms.controller.response.PedidoCreationResponse;
 import com.pes.pedido_ms.domain.Item;
 import com.pes.pedido_ms.domain.Pedido;
@@ -64,5 +68,22 @@ public class PedidoService {
     public List<Pedido> buscarPedido(final FilterPedido filter){
         List<Pedido> pedidos = mongoTemplate.find(pedidoQuery.filter(filter), Pedido.class);
         return pedidos;
+    }
+
+    public Boolean update(UpdatePedidoStatus updatedStatus) {
+
+        Optional<Pedido> oldPedido = pedidoRepository.findByCodPedido(updatedStatus.getCodPedido().toString());
+
+        if (oldPedido.isEmpty()) {
+            return false;
+        }
+        
+        // atualiza
+        Pedido updatedPedido = oldPedido.get();
+        updatedPedido.setStatus(updatedStatus.getStatus());
+        // salva
+        pedidoRepository.save(updatedPedido);
+        
+        return true;
     }
 }
