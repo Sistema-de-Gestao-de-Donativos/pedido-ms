@@ -9,7 +9,7 @@ import lombok.Data;
 public class UpdatePedidoStatus {
     
     @NotNull(message = "Pedido's code is required")
-    private Long codPedido;
+    private String codPedido;
 
     @NotNull(message = "Pedido's new status is required")
     private StatusPedidoDomain status;

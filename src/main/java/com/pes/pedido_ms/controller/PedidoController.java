@@ -1,7 +1,5 @@
 package com.pes.pedido_ms.controller;
 
-import static org.springframework.http.HttpStatus.*;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +26,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -82,6 +77,11 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.buscarPedido(filter));
     }
 
+    @Operation(summary = "Atualizar pedido", description = "Seta o novo status de um pedido")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pedido's status updated"),
+        @ApiResponse(responseCode = "404", description = "Pedido not found")
+    })
     @PutMapping
     public ResponseEntity<Void> update(@Valid @RequestBody UpdatePedidoStatus updatedStatus) {
 
