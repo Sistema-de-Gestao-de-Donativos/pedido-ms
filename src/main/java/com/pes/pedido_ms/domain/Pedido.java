@@ -14,6 +14,7 @@ import com.pes.pedido_ms.domain.enums.StatusPedidoDomain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.val;
 
 @Data
 @AllArgsConstructor
@@ -39,5 +40,23 @@ public class Pedido implements Serializable {
         this.usuario = null; // caso tenha autenticação JwtUtils.buscarUsuario()
         this.dataAbertura = LocalDateTime.now();
     }
+
+    public void recusa() {
+        this.status = StatusPedidoDomain.REPROVADO;
+        this.usuario = null;
+        this.dataAbertura = LocalDateTime.now();
+    }
+
+    /* 
+     * {
+                    "codCd": 1,
+                    "nome": "feijao",
+                    "quantidade": 57,
+                    "unidade": "Kg",
+                    "categoria": "alimenticio",
+                    "_id": "671ab2e5d5a8454b304700f9",
+                    "created_at": "2024-10-24T20:49:41.755000"
+                }
+     */
 
 }

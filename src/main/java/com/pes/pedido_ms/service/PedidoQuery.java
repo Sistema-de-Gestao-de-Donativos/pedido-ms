@@ -17,7 +17,7 @@ public class PedidoQuery {
         Query query = new Query();
 
         if (StringUtils.hasText(filter.codPedido())) {
-            query.addCriteria(Criteria.where("codPedido").is(filter.codAbrigo()));
+            query.addCriteria(Criteria.where("codPedido").is(filter.codPedido()));
         }
     
     
