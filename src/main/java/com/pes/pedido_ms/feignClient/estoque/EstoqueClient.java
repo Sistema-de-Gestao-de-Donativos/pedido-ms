@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@FeignClient(value = "estoque-ms", path = "/v1/stock", url = "${estoque-ms.url:#{null}}")
+@FeignClient(value = "app", path = "/v1/stock", url = "${estoque-ms.url:#{null}}")
 public interface EstoqueClient {
 
     @GetMapping(value = "/{codCd}/{nameItem}")

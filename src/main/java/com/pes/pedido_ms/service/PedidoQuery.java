@@ -26,7 +26,7 @@ public class PedidoQuery {
         }
 
         if (StringUtils.hasText(filter.codAbrigo())) {
-            query.addCriteria(Criteria.where("codCentroDestribuicao").is(filter.codAbrigo()));
+            query.addCriteria(Criteria.where("codAbrigo").is(filter.codAbrigo()));
         }
     
         if (StringUtils.hasText(filter.status())) {
