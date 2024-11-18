@@ -1,5 +1,7 @@
 package com.pes.pedido_ms.controller;
 
+import static org.springframework.http.HttpStatus.*;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,10 +29,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/v1/pedidos")
@@ -84,13 +83,11 @@ public class PedidoController {
     })
     @PutMapping
     public ResponseEntity<Void> update(@Valid @RequestBody UpdatePedidoStatus updatedStatus) {
-
-        if (pedidoService.update(updatedStatus)) {
-            return ResponseEntity.noContent().build();
-        }
-        else {
+        try {
+            pedidoService.update(updatedStatus);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
     }
 }
