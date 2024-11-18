@@ -10,6 +10,9 @@ import lombok.Data;
 @Data
 public class ItemPedidoRequest {
     
+    @JsonProperty("codItem")
+    private String codItem;
+
     @JsonProperty("nome")
     @NotBlank
     private String name;

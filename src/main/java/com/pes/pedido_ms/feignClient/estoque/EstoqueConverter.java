@@ -20,8 +20,9 @@ public interface EstoqueConverter {
         }
         return new Item(
             null,
-            estoqueItemDTO.codItem(),
-            estoqueItemDTO.quantity()
+            estoqueItemDTO._id(),
+            estoqueItemDTO.nome(),
+            estoqueItemDTO.quantidade()
         );
     }
 }

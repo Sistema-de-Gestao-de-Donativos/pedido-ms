@@ -16,7 +16,9 @@ import com.pes.pedido_ms.controller.response.PedidoCreationResponse;
 import com.pes.pedido_ms.domain.Item;
 import com.pes.pedido_ms.domain.Pedido;
 import com.pes.pedido_ms.feignClient.estoque.EstoqueRepository;
+import com.pes.pedido_ms.mapper.ItemMapper;
 import com.pes.pedido_ms.mapper.PedidoMapper;
+import com.pes.pedido_ms.repository.ItemRepository;
 import com.pes.pedido_ms.repository.PedidoRepository;
 
 @Service
@@ -29,7 +31,13 @@ public class PedidoService {
     private EstoqueRepository estoqueRepository;
 
     @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
     private PedidoMapper pedidoMapper;
+
+    @Autowired
+    private ItemMapper itemMapper;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -41,8 +49,6 @@ public class PedidoService {
     public PedidoCreationResponse createPedido(CreatePedidoRequest request) {
         List<ItemPedidoRequest> itemsNotFound = new ArrayList<>();
 
-        //descomentar só quando o estoque estiver ok
-        //verificar quais campos o estoque retorna, precisamos só do cod/id do item
         request.getItems().forEach(it -> {
             List<Item> item = estoqueRepository.buscarItemEstoque(it.getName(),Long.parseLong(request.getCodCentroDestribuicao()));
             
@@ -55,11 +61,11 @@ public class PedidoService {
             return new PedidoCreationResponse(itemsNotFound, false);
         }
 
-        request.getItems().forEach(it -> {
-            Pedido pedido = pedidoMapper.toPedidoEntity(request); // possiveis problemas aqui
-            pedido.preInclusao();
-            pedidoRepository.save(pedido);
-        });
+        List<Item> savedItems = itemRepository.saveAll(itemMapper.toItemEntity(request.getItems()));
+
+        Pedido pedido = pedidoMapper.toPedidoEntity(request, savedItems);
+        pedido.preInclusao();
+        pedidoRepository.save(pedido);
 
         return new PedidoCreationResponse(null, true);
     }
