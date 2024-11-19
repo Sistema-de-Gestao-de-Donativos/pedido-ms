@@ -19,7 +19,7 @@ public class ItemPedidoRequest {
 
     
     @JsonProperty("quantidade")
-    @NotNull(message = "A quantidade não pode ser nula")
+    @NotNull(message = "A quantidade nao pode ser nula")
     @Min(value = 1, message = "A quantidade deve ser maior que zero")
     private Integer quantity;
 }

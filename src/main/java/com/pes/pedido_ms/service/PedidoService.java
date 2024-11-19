@@ -52,7 +52,7 @@ public class PedidoService {
         request.getItems().forEach(it -> {
             List<Item> item = estoqueRepository.buscarItemEstoque(it.getName(),Long.parseLong(request.getCodCentroDestribuicao()));
             
-            if(item.isEmpty()){
+            if(item.isEmpty() || (item.get(0).getQuantity() < it.getQuantity())) {
                 itemsNotFound.add(it);
             }
         });
@@ -80,7 +80,7 @@ public class PedidoService {
         Optional<Pedido> oldPedido = pedidoRepository.findByCodPedido(updatedStatus.getCodPedido());
 
         if (oldPedido.isEmpty()) {
-            throw new RuntimeException("Pedido com código " + updatedStatus.getCodPedido() + " é inválido.");
+            throw new RuntimeException("Pedido com codigo " + updatedStatus.getCodPedido() + " e invalido.");
         }
         
         Pedido updatedPedido = oldPedido.get();
