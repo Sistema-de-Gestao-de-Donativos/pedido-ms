@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.pes.pedido_ms.controller.request.ItemPedidoRequest;
 import com.pes.pedido_ms.domain.Item;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,12 @@ public class EstoqueRepository {
         log.info("Atualizando item no estoque: {}", item);
         EstoqueItemDTO estoqueItemDTO = estoqueConverter.itemToEstoqueItemDTO(item);
         estoqueClient.atualizarItem(item.getCodItem(), estoqueItemDTO);
+    }
+
+    public void deletarItem(final ItemPedidoRequest item, final Long codCd) {
+        log.info("Deletando item no estoque: {}", item);
+        // codcd, nome, qtd
+        estoqueClient.saidaEstoque(codCd,item.getName(),item.getQuantity());
     }
     
 }

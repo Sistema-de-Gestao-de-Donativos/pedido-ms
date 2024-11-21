@@ -61,6 +61,11 @@ public class PedidoService {
             return new PedidoCreationResponse(itemsNotFound, false);
         }
 
+        // Dar baixa no estoque
+        request.getItems().forEach(it -> {
+            estoqueRepository.deletarItem(it, Long.parseLong(request.getCodCentroDestribuicao()));
+        });
+
         List<Item> savedItems = itemRepository.saveAll(itemMapper.toItemEntity(request.getItems()));
 
         Pedido pedido = pedidoMapper.toPedidoEntity(request, savedItems);

@@ -22,7 +22,7 @@ public interface EstoqueClient {
                         @RequestBody final EstoqueItemDTO item);
 
         @DeleteMapping(value = "/{codCd}")
-        void saidaEstoque(@PathVariable("codCd") final String codCd,
-                        @RequestParam("codBarras") final String codBarras,
-                        @RequestParam("qtd") Long quantidade);
+        void saidaEstoque(@PathVariable("codCd") final Long codCd,
+                        @RequestParam("nome") final String nome,
+                        @RequestParam("qtd") Integer quantidade);
 }
