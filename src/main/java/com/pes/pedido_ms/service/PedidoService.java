@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pes.pedido_ms.configs.security.JwtUtil;
 import com.pes.pedido_ms.controller.request.CreatePedidoRequest;
 import com.pes.pedido_ms.controller.request.ItemPedidoRequest;
 import com.pes.pedido_ms.controller.request.UpdatePedidoStatus;
@@ -23,6 +24,9 @@ import com.pes.pedido_ms.repository.PedidoRepository;
 
 @Service
 public class PedidoService {
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Autowired
     private PedidoRepository pedidoRepository;
@@ -69,7 +73,7 @@ public class PedidoService {
         List<Item> savedItems = itemRepository.saveAll(itemMapper.toItemEntity(request.getItems()));
 
         Pedido pedido = pedidoMapper.toPedidoEntity(request, savedItems);
-        pedido.preInclusao();
+        pedido.preInclusao(jwtUtil.email());
         pedidoRepository.save(pedido);
 
         return new PedidoCreationResponse(null, true);

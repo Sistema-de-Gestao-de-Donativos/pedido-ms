@@ -18,7 +18,7 @@ public class EstoqueRepository {
     private final EstoqueClient estoqueClient;
     private final EstoqueConverter estoqueConverter;
 
-    public List<Item> buscarItemEstoque(final String codigoItem, final Long codCD){
+    public List<Item> buscarItemEstoque(final String codigoItem, final Long codCD) {
         log.info("Buscando item no estoque com código: {}", codigoItem);
         List<EstoqueItemDTO> estoqueItemDTO = estoqueClient.buscarItem(codigoItem, codCD);
         return estoqueConverter.estoqueItemDTOToItem(estoqueItemDTO);
@@ -33,7 +33,7 @@ public class EstoqueRepository {
     public void deletarItem(final ItemPedidoRequest item, final Long codCd) {
         log.info("Deletando item no estoque: {}", item);
         // codcd, nome, qtd
-        estoqueClient.saidaEstoque(codCd,item.getName(),item.getQuantity());
+        estoqueClient.saidaEstoque(codCd, item.getName(), item.getQuantity());
     }
-    
+
 }

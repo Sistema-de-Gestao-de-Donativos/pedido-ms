@@ -36,15 +36,15 @@ public class Pedido implements Serializable {
     @DocumentReference
     private List<Item> items = new ArrayList<>();
 
-    public void preInclusao() {
+    public void preInclusao(String usuario) {
         this.status = StatusPedidoDomain.PROCESSANDO;
-        this.usuario = null; // caso tenha autenticação JwtUtils.buscarUsuario()
+        this.usuario = usuario;
         this.dataAbertura = LocalDateTime.now();
     }
 
-    public void recusa() {
-        this.status = StatusPedidoDomain.REPROVADO;
-        this.usuario = null;
-        this.dataAbertura = LocalDateTime.now();
-    }
+    // public void recusa(String usuario) {
+    //     this.status = StatusPedidoDomain.REPROVADO;
+    //     this.usuario = usuario;
+    //     this.dataAbertura = LocalDateTime.now();
+    // }
 }
