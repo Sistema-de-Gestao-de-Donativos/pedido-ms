@@ -1,11 +1,14 @@
 package com.pes.pedido_ms.configs.security;
 
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import java.io.IOException;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 
@@ -19,6 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenValidator jwtTokenValidator;
     private final JwtUtil jwtUtil;
+    private final Set<String> validRoles = Set.of("superadmin", "adminAbrigo", "adminCD", "voluntario");
 
     @Autowired
     public JwtAuthenticationFilter(JwtTokenValidator jwtTokenValidator, JwtUtil jwtUtil) {
@@ -42,7 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String userId = decodedJWT.getSubject();
                 String email = decodedJWT.getClaim("email").asString();
                 String role = decodedJWT.getClaim("role").asString();
-
+                System.out.println("role: "+role);
+                if (validRoles.contains(role)) {
+                    System.out.println("role valido");
+                } else {
+                    System.out.println("role invalido");
+                    throw new ResponseStatusException(FORBIDDEN);
+                }
+                
                 // Configura o JwtUtil com os detalhes
                 jwtUtil.setJwtDetails(token, userId, email, role);
 
