@@ -23,6 +23,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenValidator jwtTokenValidator;
     private final JwtUtil jwtUtil;
     private final Set<String> validRoles = Set.of("superadmin", "adminAbrigo", "adminCD", "voluntario");
+    private final Set<String> validRolesPut = Set.of("superadmin", "adminAbrigo", "voluntario");
+    private final Set<String> validRolesPost = Set.of("superadmin", "adminAbrigo");
 
     @Autowired
     public JwtAuthenticationFilter(JwtTokenValidator jwtTokenValidator, JwtUtil jwtUtil) {
@@ -53,7 +55,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     System.out.println("role invalido");
                     throw new ResponseStatusException(FORBIDDEN);
                 }
+                // Restrição de acesso baseada no método HTTP e endpoint 
+                String requestURI = request.getRequestURI(); String method = request.getMethod();
                 
+                if (requestURI.equals("/v1/pedidos") && (method.equals("PUT"))) {
+                    if (!validRolesPut.contains(role)) {
+                        throw new ResponseStatusException(FORBIDDEN,"Access denied: role not allowed");
+                    }
+                }
+                if (requestURI.equals("/v1/pedidos") && (method.equals("POST"))) {
+                    if (!validRolesPost.contains(role)) {
+                        throw new ResponseStatusException(FORBIDDEN,"Access denied: role not allowed");
+                    }
+                }
+
                 // Configura o JwtUtil com os detalhes
                 jwtUtil.setJwtDetails(token, userId, email, role);
 
